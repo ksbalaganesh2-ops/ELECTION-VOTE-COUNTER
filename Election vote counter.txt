@@ -1,0 +1,56 @@
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Scanner;
+
+public class ElectionVoteCounter {
+
+    // HashMap to store candidate name and vote count
+    private static HashMap<String, Integer> voteMap = new HashMap<>();
+
+    // Method to add a vote to a candidate
+    public static void addVote(String candidate) {
+        voteMap.put(candidate, voteMap.getOrDefault(candidate, 0) + 1);
+    }
+
+    // Method to display vote results
+    public static void displayResults() {
+        System.out.println("\n===== ELECTION RESULTS =====");
+        for (Map.Entry<String, Integer> entry : voteMap.entrySet()) {
+            System.out.println("Candidate: " + entry.getKey() + " | Votes: " + entry.getValue());
+        }
+        System.out.println("=============================");
+    }
+
+    // Method to declare the winner
+    public static void declareWinner() {
+        String winner = null;
+        int maxVotes = 0;
+
+        for (Map.Entry<String, Integer> entry : voteMap.entrySet()) {
+            if (entry.getValue() > maxVotes) {
+                maxVotes = entry.getValue();
+                winner = entry.getKey();
+            }
+        }
+
+        System.out.println("\n🏆 WINNER: " + winner + " with " + maxVotes + " votes!");
+    }
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("====== Election Vote Counter ======");
+        System.out.print("Enter number of votes to record: ");
+        int totalVotes = scanner.nextInt();
+        scanner.nextLine(); // consume newline
+
+        for (int i = 1; i <= totalVotes; i++) {
+            System.out.print("Enter candidate name for vote " + i + ": ");
+            String candidate = scanner.nextLine();
+            addVote(candidate);
+        }
+
+        displayResults();
+        declareWinner();
+    }
+}
